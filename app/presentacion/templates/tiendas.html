@@ -1,0 +1,8 @@
+{% extends 'base.html' %}{% block content %}
+<div class="encabezado"><h1>Tiendas</h1></div>
+<div class="tiendas">{% for t in tiendas %}
+<a class="tienda-card" href="{{ url_for('web.tienda', tienda_id=t.id) }}"><h2>{{ t.nombre }}</h2>
+{% if t.incorporada %}<p>{{ '{:,}'.format(t.total) }} productos</p>{% if t.estado_sync == 'fallida' %}<p class="pendiente">Última actualización no completada. Se conserva el catálogo anterior.</p>{% endif %}<span>Ver productos →</span>
+{% else %}<p class="pendiente">{{ 'Actualización en curso' if t.estado_sync == 'en_curso' else ('Actualización no completada' if t.estado_sync == 'fallida' else 'Catálogo pendiente de sincronización') }}</p><span>Ver estado →</span>{% endif %}
+</a>{% endfor %}</div>
+{% endblock %}

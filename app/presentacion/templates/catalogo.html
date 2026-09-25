@@ -1,0 +1,26 @@
+{% extends 'base.html' %}{% block content %}
+{% if seleccionada %}<a href="{{ url_for('web.productos') }}" class="volver">← Todos los productos</a>{% endif %}
+<div class="encabezado"><h1>{{ seleccionada.nombre if seleccionada else 'Todos los productos' }}</h1></div>
+{% if seleccionada and not seleccionada.incorporada %}
+<section class="vacio"><h2>{{ 'Actualización en curso' if seleccionada.estado_sync == 'en_curso' else ('Actualización no completada' if seleccionada.estado_sync == 'fallida' else 'Catálogo pendiente de sincronización') }}</h2><p>{{ seleccionada.mensaje_sync or 'Los productos estarán disponibles al completar la sincronización de la API.' }}</p><a href="{{ url_for('web.productos') }}">Consultar productos disponibles</a></section>
+{% else %}
+<form class="buscador" method="get">
+<div class="campo amplio"><label for="q">Nombre, marca o código</label><input id="q" name="q" type="search" maxlength="120" value="{{ q }}" placeholder="Buscar producto" autocomplete="off"></div>
+<div class="campo precio-filtro"><label for="precio_min">Precio mínimo ($)</label><input id="precio_min" name="precio_min" type="number" min="0" step="0.01" value="{{ precio_min }}"></div>
+<div class="campo precio-filtro"><label for="precio_max">Precio máximo ($)</label><input id="precio_max" name="precio_max" type="number" min="0" step="0.01" value="{{ precio_max }}"></div>
+<div class="campo"><label for="orden">Orden</label><select id="orden" name="orden">{% for valor,etiqueta in [('precio_asc','Menor precio'),('precio_desc','Mayor precio'),('nombre','Nombre A–Z')] %}<option value="{{ valor }}" {% if orden == valor %}selected{% endif %}>{{ etiqueta }}</option>{% endfor %}</select></div>
+<div class="acciones-filtros"><label class="check"><input name="disponible" type="checkbox" value="1" {% if disponible %}checked{% endif %}>Solo disponibles</label><button type="submit">Buscar</button><a class="limpiar" href="{{ url_for('web.tienda', tienda_id=seleccionada.id) if seleccionada else url_for('web.productos') }}">Limpiar filtros</a></div>
+</form>
+<div class="resultado"><h2>{{ '{:,}'.format(total) }} resultados{% if q %} para «{{ q }}»{% endif %}</h2><span>Precios en USD</span></div>
+{% if not estado.generacion %}<div class="vacio"><h2>Catálogo pendiente de carga</h2><p>Los productos estarán disponibles al finalizar la carga inicial.</p></div>
+{% elif not productos %}<div class="vacio"><h2>No se encontraron productos</h2><p>Modifica la búsqueda o los filtros.</p></div>{% endif %}
+<div class="productos">{% for p in productos %}<article class="producto">
+<a class="imagen" href="{{ url_for('web.detalle_tienda', tienda_id=p.fuente, identificador=p.id_externo) }}" aria-label="Ver {{ p.nombre }}">{% if p.imagenes %}<img loading="lazy" src="{{ p.imagenes[0] }}" alt="{{ p.nombre }}" referrerpolicy="no-referrer">{% else %}<span>Sin imagen</span>{% endif %}</a>
+<div class="producto-info"><span class="tienda-producto">{{ p.tienda_nombre }}</span><p class="marca">{{ p.marca }}</p><h3><a href="{{ url_for('web.detalle_tienda', tienda_id=p.fuente, identificador=p.id_externo) }}">{{ p.nombre }}</a></h3>
+<div class="precio">{% if p.precio is not none %}{% if p.precio_por_variante %}Desde {% endif %}${{ '%.2f'|format(p.precio) }}{% else %}{{ 'Según variante' if p.precio_por_variante else 'Precio no informado' }}{% endif %}</div>
+<span class="stock {% if p.disponible %}disponible{% endif %}">{{ 'Disponible' if p.disponible else ('Sin existencias' if p.disponible == false else 'Disponibilidad no informada') }}</span></div></article>{% endfor %}</div>
+{% if paginas > 1 %}<nav class="paginacion" aria-label="Páginas de productos">
+{% if pagina > 1 %}<a href="{{ enlace_pagina(pagina-1) }}">Anterior</a>{% endif %}<span>Página {{ pagina }} de {{ paginas }}</span>{% if pagina < paginas %}<a href="{{ enlace_pagina(pagina+1) }}">Siguiente</a>{% endif %}</nav>{% endif %}
+{% endif %}{% endblock %}
+
+

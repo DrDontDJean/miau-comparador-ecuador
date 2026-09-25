@@ -1,0 +1,11 @@
+.tiendas{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:22px}
+.tienda-card{display:flex;flex-direction:column;min-height:190px;border:1px solid var(--borde);border-top:5px solid var(--vino);border-radius:8px;padding:24px;text-decoration:none;color:var(--tinta);background:#fff}
+.tienda-card:hover{box-shadow:0 5px 20px #5d222d18;border-color:var(--vino)}
+.tienda-card h2{color:var(--vino)}.tienda-card span{margin-top:auto;color:var(--vino);font-weight:bold}
+.pendiente{color:#6b5b61;font-size:16px}.tienda-producto{font-weight:bold;font-size:16px;margin-bottom:8px}
+input[type=number]{height:48px;border:1px solid var(--borde);border-radius:4px;padding:8px 12px;max-width:100%;width:150px;background:#fff;color:var(--tinta)}
+.acciones-filtros{width:100%;display:flex;align-items:center;gap:22px;flex-wrap:wrap}.acciones-filtros .check{width:auto;margin-right:auto}
+.limpiar{color:#fff}.volver+.encabezado{margin-top:25px}
+.tabla-ofertas{overflow-x:auto}.tabla-ofertas table{width:100%;border-collapse:collapse;text-align:left}.tabla-ofertas th{background:var(--vino);color:white}.tabla-ofertas td,.tabla-ofertas th{padding:12px;border-bottom:1px solid var(--borde)}
+@media(max-width:980px){.tiendas{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:720px){.tiendas{grid-template-columns:1fr}.precio-filtro input{width:100%}.acciones-filtros .check{width:100%}.buscador select{width:100%}}

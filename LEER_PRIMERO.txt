@@ -1,0 +1,38 @@
+IDEALO - PL_Miau
+
+PARA ABRIR
+Doble clic en ABRIR_MIAU.bat. Abre http://127.0.0.1:5001.
+En este equipo, Python, MongoDB y los datos ya estan preparados en esta carpeta.
+No es necesario ejecutar archivos de la ubicacion anterior.
+
+PARA CERRAR
+Doble clic en DETENER_MIAU.bat. Detiene la web y el programador.
+MongoDB permanece disponible para consultar los datos en Compass.
+
+PARA EDITAR
+Abrir esta carpeta en Visual Studio Code.
+app/: codigo Python, paginas HTML y estilos.
+docs/: documentacion de la arquitectura y de las APIs.
+tests/: pruebas opcionales para desarrollo.
+Tiendas_Ecuador_APIs.xlsx: informacion de las tiendas y enlaces a las APIs.
+
+DATOS Y CONFIGURACION
+La base completa esta en data/mongodb/.
+El ejecutable de MongoDB esta en data/runtime/.
+Las dependencias de Python estan en .venv/.
+Los registros de ejecucion estan en data/logs/.
+respaldo/catalogo.jsonl.gz contiene una copia logica del catalogo.
+.env contiene la configuracion de conexion, puertos y horario.
+
+MongoDB Compass: mongodb://127.0.0.1:27018
+Base: frecuento_catalogo (nombre interno).
+Actualizacion diaria: 03:00, hora de Ecuador, con el equipo encendido.
+Actualizacion manual: SINCRONIZAR_AHORA.bat.
+
+AL CAMBIAR DE COMPUTADORA
+Si se obtiene desde GitHub, instalar Git y Git LFS y clonar el repositorio.
+Ejecutar git lfs pull si el respaldo no se descargo con el clon.
+Instalar Python 3.11 o superior y MongoDB Community Server.
+ABRIR_MIAU.bat crea un entorno Python nuevo y restaura el respaldo.
+Para renovar el respaldo antes del traslado, ejecutar en esta carpeta:
+.venv\Scripts\python.exe transferir_catalogo.py exportar

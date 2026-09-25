@@ -1,0 +1,13 @@
+{
+  "generacion": "dd1b5cc4626e4deba4a7cd326b2916de",
+  "productos_declarados": 35644,
+  "productos_guardados": 35644,
+  "ids_unicos": 35644,
+  "paginas": 72,
+  "estado": "completada",
+  "inicio": "2026-09-19T02:16:29.440000+00:00",
+  "fin": "2026-09-19T02:22:54.409000+00:00",
+  "precio_segun_variante": 2,
+  "proxima_ejecucion": "2026-09-19 03:00:00-05:00",
+  "pruebas": "10 passed"
+}

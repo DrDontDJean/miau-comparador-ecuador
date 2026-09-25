@@ -1,0 +1,9 @@
+{% extends 'base.html' %}{% block content %}<a href="{{ url_for('web.productos') }}" class="volver">← Todos los productos</a>
+<div class="detalle"><div class="detalle-imagen">{% if p.imagenes %}<img src="{{ p.imagenes[0] }}" alt="{{ p.nombre }}">{% else %}Sin imagen{% endif %}</div>
+<section><p class="etiqueta">{{ p.tienda_nombre }}{% if p.marca %} · {{ p.marca }}{% endif %}</p><h1>{{ p.nombre }}</h1><p>{{ p.categorias|join(' / ') }}</p>
+<p class="precio">{% if p.precio is not none %}{% if p.precio_por_variante %}Desde {% endif %}${{ '%.2f'|format(p.precio) }} USD{% else %}{{ 'Precio según variante' if p.precio_por_variante else 'Precio no informado' }}{% endif %}</p>
+{% if p.url_origen %}<p><a class="volver" href="{{ p.url_origen }}" target="_blank" rel="noopener noreferrer">Ver en la tienda</a></p>{% endif %}
+<dl><dt>Código</dt><dd>{{ p.codigo }}</dd><dt>ID de la fuente</dt><dd>{{ p.id_externo }}</dd><dt>Disponibilidad</dt><dd>{{ 'Disponible' if p.disponible else 'No disponible o no informada' }}</dd><dt>Última captura</dt><dd>{{ p.actualizado_en|fecha }}</dd></dl></section></div>
+<section class="descripcion"><h2>Descripción</h2><p>{{ p.descripcion or 'Sin descripción publicada.' }}</p></section>
+{% if p.variantes and p.fuente != 'frecuento' %}<section class="descripcion"><h2>Variantes y ofertas</h2><div class="tabla-ofertas"><table><thead><tr><th>Variante</th><th>Vendedor</th><th>Precio</th><th>Disponibilidad</th></tr></thead><tbody>{% for v in p.variantes %}<tr><td>{{ v.nombre }}</td><td>{{ v.vendedor or p.fuente }}</td><td>{{ ('$%.2f'|format(v.precio)) if v.precio is not none else 'No informado' }}</td><td>{{ 'Disponible' if v.disponible else 'No disponible' }}</td></tr>{% endfor %}</tbody></table></div></section>{% endif %}
+{% endblock %}

@@ -1,0 +1,8 @@
+{% extends 'base.html' %}{% block content %}<p class="etiqueta">OPERACIÓN DEL CATÁLOGO</p><h1>Actualización programada</h1>
+<p>Frecuencia diaria: <strong>{{ horario }}</strong>. El programador debe permanecer en ejecución y el equipo encendido.</p>
+<div class="paneles"><section class="panel"><h2>Catálogo publicado</h2><strong class="numero">{{ '{:,}'.format(estado.total) }}</strong><p>productos disponibles para búsqueda</p><p>{{ estado.actualizado_en|fecha }} (EC)</p></section>
+<section class="panel"><h2>Última ejecución</h2><p class="estado">{{ {'completada':'Completada','en_curso':'En curso','fallida':'Fallida'}.get(estado.ultima.estado,'Sin ejecuciones') }}</p><p>{{ estado.ultima.productos or 0 }} de {{ estado.ultima.esperados or '—' }} productos recibidos · {{ estado.ultima.paginas or 0 }} páginas</p>
+{% if estado.ultima.error %}<p>{{ estado.ultima.error }}</p>{% endif %}<p>Inicio: {{ estado.ultima.inicio|fecha }}</p></section></div>
+<div class="nota"><p>La carga se ejecuta en un proceso independiente. Una búsqueda no inicia descargas ni actualiza el catálogo.</p><p>Una ejecución fallida conserva la versión publicada. La carga inicial puede ejecutarse con <code>SINCRONIZAR_AHORA.bat</code>.</p></div>
+{% if estado.ultima.estado == 'en_curso' %}<script>setTimeout(()=>location.reload(),15000);</script>{% endif %}
+{% endblock %}
